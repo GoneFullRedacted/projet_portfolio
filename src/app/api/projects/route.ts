@@ -1,5 +1,5 @@
 // src/app/api/projects/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
 const pool = new Pool({
@@ -9,14 +9,11 @@ const pool = new Pool({
   }
 });
 
-export async function GET(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _request: Request //
-    //
-) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(_request: NextRequest) {
   try {
     const result = await pool.query('SELECT id, title, description_courte, github_url, live_url, tags FROM projects');
-    return NextResponse.json(result.rows, { status: 200 }); // Utilise NextResponse pour renvoyer du JSON
+    return NextResponse.json(result.rows, { status: 200 });
   } catch (error) {
     console.error('Erreur lors de la récupération des projets :', error);
     return NextResponse.json({ message: 'Erreur interne du serveur' }, { status: 500 });
@@ -24,6 +21,6 @@ export async function GET(
 }
 
 // Si tu avais d'autres méthodes HTTP, tu les exporterais ici aussi, par exemple:
-// export async function POST(request: Request) { ... }
-// export async function PUT(request: Request) { ... }
-// export async function DELETE(request: Request) { ... }
+// export async function POST(request: NextRequest) { ... }
+// export async function PUT(request: NextRequest) { ... }
+// export async function DELETE(request: NextRequest) { ... }

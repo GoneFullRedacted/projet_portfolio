@@ -9,25 +9,12 @@ const pool = new Pool({
   }
 });
 
-// Le type Context permet d'accéder aux paramètres dynamiques de l'URL
-// interface Context {
-//   params: {
-//     id: string; // Le nom du dossier dynamique [id] correspondra à ce paramètre
-//   };
-// }
-
-interface GetRouteContext { // Use a very specific name to avoid any global conflicts
-  params: {
-    id: string;
-  };
-}
-
 export async function GET(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _request: NextRequest, // On garde le _request et le commentaire pour ESLint
-    context: GetRouteContext
-  ) {
-    const { id } = context.params; // Extrait l'ID des paramètres
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const params = await context.params;
+  const { id } = params;
 
   try {
     const projectResult = await pool.query('SELECT id, title, description_courte, github_url, live_url, tags FROM projects WHERE id = $1', [id]);

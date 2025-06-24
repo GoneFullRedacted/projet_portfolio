@@ -2,19 +2,20 @@
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import Link from 'next/link'; // N'oublie pas d'importer Link si tu l'utilises pour revenir en arrière ou autre
-import { notFound } from 'next/navigation'; // Pour gérer le cas où le projet n'est pas trouvé
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { Project } from '@/models/project';
 
 // Interface pour les props de la page dynamique
 interface ProjectDetailPageProps {
-  params: {
-    id: string; // Le paramètre dynamique de l'URL
-  };
+  params: Promise<{
+    id: string;
+  }>;
 }
 
 export default async function ProjectDetailPage(props: ProjectDetailPageProps) {
-  const { id } = props.params;
+  const params = await props.params;
+  const { id } = params;
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/project/${id}`, {
     cache: 'no-store'
@@ -25,11 +26,14 @@ export default async function ProjectDetailPage(props: ProjectDetailPageProps) {
     notFound();
   }
 
-  const project: Project = await response.json();
+  const data = await response.json();
 
-  if (!project || project.message === 'Projet non trouvé') {
+  // Check if the response is an error object instead of a project
+  if (!data || 'message' in data) {
     notFound();
   }
+
+  const project: Project = data;
 
   return (
     <div className="container mx-auto p-8">
