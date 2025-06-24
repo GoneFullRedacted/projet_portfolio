@@ -1,5 +1,5 @@
 // src/app/api/project/[id]/route.ts
-import { NextResponse } from 'next/server';
+import { NextResponse, NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
 const pool = new Pool({
@@ -42,7 +42,7 @@ export async function GET(
 
           const githubApiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/README.md`;
 
-          const headers = {
+          const headers: HeadersInit = {
             'Accept': 'application/vnd.github.v3.raw',
             'User-Agent': 'Next.js-Portfolio-App'
           };
