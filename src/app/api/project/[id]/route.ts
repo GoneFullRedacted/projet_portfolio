@@ -1,5 +1,5 @@
 // src/app/api/project/[id]/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
 const pool = new Pool({
@@ -17,7 +17,6 @@ interface Context {
 }
 
 export async function GET(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _request: Request, // On garde le _request et le commentaire pour ESLint
     { params }: Context // <-- C'EST ICI LA MODIFICATION CLÉ !
   ) {
