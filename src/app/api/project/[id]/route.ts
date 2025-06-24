@@ -1,5 +1,5 @@
 // src/app/api/project/[id]/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Pool } from 'pg';
 
 const pool = new Pool({
@@ -16,12 +16,18 @@ const pool = new Pool({
 //   };
 // }
 
+interface GetRouteContext { // Use a very specific name to avoid any global conflicts
+  params: {
+    id: string;
+  };
+}
+
 export async function GET(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _request: Request, // On garde le _request et le commentaire pour ESLint
-    { params }: { params: { id: string } } // <-- C'EST ICI LA MODIFICATION CLÉ !
+    _request: NextRequest, // On garde le _request et le commentaire pour ESLint
+    context: GetRouteContext
   ) {
-    const { id } = params; // Extrait l'ID des paramètres
+    const { id } = context.params; // Extrait l'ID des paramètres
 
   try {
     const projectResult = await pool.query('SELECT id, title, description_courte, github_url, live_url, tags FROM projects WHERE id = $1', [id]);
