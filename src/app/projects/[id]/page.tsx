@@ -14,7 +14,7 @@ interface ProjectDetailPageProps {
 }
 
 export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
-  const { id } = params;
+  const { id } = await params;
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/project/${id}`, {
     cache: 'no-store'

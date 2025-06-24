@@ -17,10 +17,11 @@ interface Context {
 }
 
 export async function GET(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _request: Request, // On garde le _request et le commentaire pour ESLint
     { params }: Context // <-- C'EST ICI LA MODIFICATION CLÉ !
   ) {
-    const { id } = params; // Extrait l'ID des paramètres
+    const { id } = await params; // Extrait l'ID des paramètres
 
   try {
     const projectResult = await pool.query('SELECT id, title, description_courte, github_url, live_url, tags FROM projects WHERE id = $1', [id]);
