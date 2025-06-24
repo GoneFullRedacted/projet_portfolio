@@ -9,7 +9,11 @@ const pool = new Pool({
   }
 });
 
-export async function GET(_request: NextRequest) { // La requête HTTP GET
+export async function GET(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _request: Request //
+    //
+) {
   try {
     const result = await pool.query('SELECT id, title, description_courte, github_url, live_url, tags FROM projects');
     return NextResponse.json(result.rows, { status: 200 }); // Utilise NextResponse pour renvoyer du JSON
