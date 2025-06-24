@@ -9,7 +9,7 @@ const pool = new Pool({
   }
 });
 
-export async function GET(_request: Request) { // La requête HTTP GET
+export async function GET(_request: NextRequest) { // La requête HTTP GET
   try {
     const result = await pool.query('SELECT id, title, description_courte, github_url, live_url, tags FROM projects');
     return NextResponse.json(result.rows, { status: 200 }); // Utilise NextResponse pour renvoyer du JSON
