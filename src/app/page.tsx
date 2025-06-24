@@ -1,10 +1,10 @@
 // src/app/page.tsx
 
 import Link from 'next/link';
-import { NextResponse } from 'next/server'; // Importe NextResponse si tu l'utilises pour la gestion des erreurs API, sinon pas besoin ici.
+import { Project } from '@/models/project';
 
 export default async function HomePage() {
-  let projects: any[] = []; // 👈 Initialise projects comme un tableau vide pour éviter 'undefined'
+  let projects: Project[] = []; // 👈 Initialise projects comme un tableau vide pour éviter 'undefined'
 
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/projects`, {
@@ -20,7 +20,7 @@ export default async function HomePage() {
       const data = await response.json();
       // 👈 S'assurer que les données reçues sont bien un tableau
       if (Array.isArray(data)) {
-        projects = data;
+        projects = data as Project[];
       } else {
         console.warn("L'API /api/projects n'a pas renvoyé un tableau. Vérifiez votre route API.");
         // projects reste un tableau vide []
@@ -39,7 +39,7 @@ export default async function HomePage() {
         {/* 👈 C'est ICI que tu insères le test projects.length */}
         {projects.length > 0 ? (
           // Si projects contient des éléments, on les mappe
-          projects.map((project: any) => (
+          projects.map((project: Project) => (
             <div key={project.id} className="bg-white shadow-md rounded-lg p-6">
               <h2 className="text-2xl font-semibold mb-2">{project.title}</h2>
               <p className="text-gray-600 mb-4">{project.description_courte}</p>

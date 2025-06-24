@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Link from 'next/link'; // N'oublie pas d'importer Link si tu l'utilises pour revenir en arrière ou autre
 import { notFound } from 'next/navigation'; // Pour gérer le cas où le projet n'est pas trouvé
+import { Project } from '@/models/project';
 
 // Interface pour les props de la page dynamique
 interface ProjectDetailPageProps {
@@ -24,7 +25,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     notFound();
   }
 
-  const project = await response.json();
+  const project: Project = await response.json();
 
   if (!project || project.message === 'Projet non trouvé') {
     notFound();
