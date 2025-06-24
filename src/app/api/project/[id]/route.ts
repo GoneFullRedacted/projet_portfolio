@@ -10,16 +10,16 @@ const pool = new Pool({
 });
 
 // Le type Context permet d'accéder aux paramètres dynamiques de l'URL
-interface Context {
-  params: {
-    id: string; // Le nom du dossier dynamique [id] correspondra à ce paramètre
-  };
-}
+// interface Context {
+//   params: {
+//     id: string; // Le nom du dossier dynamique [id] correspondra à ce paramètre
+//   };
+// }
 
 export async function GET(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _request: Request, // On garde le _request et le commentaire pour ESLint
-    { params }: Context // <-- C'EST ICI LA MODIFICATION CLÉ !
+    { params }: { params: { id: string } } // <-- C'EST ICI LA MODIFICATION CLÉ !
   ) {
     const { id } = params; // Extrait l'ID des paramètres
 
