@@ -18,8 +18,8 @@ export async function GET(_request: NextRequest) {
       ...project,
       tags: project.tags || [] // Convert null to empty array
     }));
-    
-    return NextResponse.json(result.rows, { status: 200 });
+
+    return NextResponse.json(projects, { status: 200 });
   } catch (error) {
     console.error('Erreur lors de la récupération des projets :', error);
     return NextResponse.json({ message: 'Erreur interne du serveur' }, { status: 500 });
